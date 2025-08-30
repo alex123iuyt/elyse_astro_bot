@@ -19,24 +19,31 @@ export default function AuthPage() {
 
   // Если пользователь уже авторизован, перенаправляем его
   useEffect(() => {
+    console.log('🔄 Auth page effect:', { authLoading, isAuthenticated, user: user?.email, role: user?.role });
+    
     if (!authLoading && isAuthenticated && user) {
       // Получаем callback URL из параметров
       const urlParams = new URLSearchParams(window.location.search);
       const callbackUrl = urlParams.get('callbackUrl');
       
-      if (user.role === 'admin') {
-        // Для админов перенаправляем на админку или callback URL
-        if (callbackUrl && callbackUrl.startsWith('/admin')) {
-          router.replace(callbackUrl);
+      // Предотвращаем повторные перенаправления
+      const currentPath = window.location.pathname;
+      if (currentPath === '/auth') {
+        console.log('🚀 Redirecting authenticated user:', user.role);
+        if (user.role === 'admin') {
+          // Для админов перенаправляем на админку или callback URL
+          if (callbackUrl && callbackUrl.startsWith('/admin')) {
+            router.replace(callbackUrl);
+          } else {
+            router.replace('/admin');
+          }
         } else {
-          router.replace('/admin');
-        }
-      } else {
-        // Для обычных пользователей перенаправляем на главную или callback URL
-        if (callbackUrl && !callbackUrl.startsWith('/admin')) {
-          router.replace(callbackUrl);
-        } else {
-          router.replace('/');
+          // Для обычных пользователей перенаправляем на главную или callback URL
+          if (callbackUrl && !callbackUrl.startsWith('/admin')) {
+            router.replace(callbackUrl);
+          } else {
+            router.replace('/');
+          }
         }
       }
     }

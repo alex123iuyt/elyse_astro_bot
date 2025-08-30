@@ -29,14 +29,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const checkAuth = async () => {
+    // Предотвращаем повторные вызовы
+    if (isLoading === false) {
+      return;
+    }
+    
     try {
+      console.log('🔍 Checking authentication...');
       const res = await fetch('/api/auth/me', { cache: 'no-store' });
       const data = await res.json();
       
       if (data?.success) {
+        console.log('✅ User authenticated:', data.user.email);
         setUser(data.user);
         setIsAuthenticated(true);
       } else {
+        console.log('❌ User not authenticated');
         setUser(null);
         setIsAuthenticated(false);
       }
@@ -68,8 +76,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Стартуем синхронно: сначала считаем пользователя из cookie
     // (на стороне клиента у нас нет доступа к httpOnly, поэтому делаем быстрый вызов без кеша)
-    checkAuth();
-  }, []);
+    if (isLoading) {
+      checkAuth();
+    }
+  }, [isLoading]);
 
   return (
     <AuthContext.Provider value={{

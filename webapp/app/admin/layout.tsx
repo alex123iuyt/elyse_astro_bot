@@ -16,8 +16,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname() || '/admin/dashboard';
 
   useEffect(() => {
+    console.log('🔄 Admin layout effect:', { isAuthenticated, userRole: user?.role, pathname });
+    
+    // Предотвращаем бесконечные перенаправления
     if (!isAuthenticated || user?.role !== 'admin') {
-      router.replace('/auth?next=/admin/dashboard&scope=admin');
+      const currentPath = window.location.pathname;
+      if (currentPath.startsWith('/admin')) {
+        console.log('🚫 Access denied, redirecting to auth');
+        router.replace('/auth?next=/admin/dashboard&scope=admin');
+      }
     }
   }, [isAuthenticated, user, router]);
 
