@@ -1,0 +1,27 @@
+{
+  "name": "@elyse-cms/cms-api",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "dev": "tsx watch index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "next": "^14.0.4",
+    "@elyse-cms/db": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "tsx": "^4.6.2",
+    "typescript": "^5.3.3"
+  }
+}
+
+
+
+
+
+

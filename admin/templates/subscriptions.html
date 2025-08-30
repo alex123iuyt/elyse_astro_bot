@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+{% block title %}Подписки - Elyse Astro Admin{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-6 lg:px-8">
+    <div class="sm:flex sm:items-center">
+        <div class="sm:flex-auto">
+            <h1 class="text-2xl font-semibold text-zinc-100">Управление подписками</h1>
+            <p class="mt-2 text-sm text-zinc-400">Мониторинг и управление премиум-подписками пользователей</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- Total Premium -->
+        <div class="bg-zinc-900 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
+                            <span class="text-white text-lg">⭐</span>
+                        </div>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-zinc-400 truncate">Всего премиум</dt>
+                            <dd class="text-lg font-medium text-zinc-100">{{ stats.total_premium }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Premium -->
+        <div class="bg-zinc-900 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+                            <span class="text-white text-lg">✅</span>
+                        </div>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-zinc-400 truncate">Активных</dt>
+                            <dd class="text-lg font-medium text-zinc-100">{{ stats.active_premium }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expired Premium -->
+        <div class="bg-zinc-900 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-red-500 rounded-md flex items-center justify-center">
+                            <span class="text-white text-lg">⏰</span>
+                        </div>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-zinc-400 truncate">Истекших</dt>
+                            <dd class="text-lg font-medium text-zinc-100">{{ stats.expired_premium }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Revenue -->
+        <div class="bg-zinc-900 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-emerald-500 rounded-md flex items-center justify-center">
+                            <span class="text-white text-lg">💰</span>
+                        </div>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-zinc-400 truncate">Доход (мес)</dt>
+                            <dd class="text-lg font-medium text-zinc-100">{{ stats.monthly_revenue }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mt-8">
+        <h2 class="text-lg font-medium text-zinc-100 mb-4">Быстрые действия</h2>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <button 
+                onclick="bulkExtendPremium()"
+                class="bg-zinc-800 hover:bg-zinc-700 p-4 rounded-lg border border-zinc-700 hover:border-emerald-500 transition-colors text-left"
+            >
+                <div class="flex items-center">
+                    <span class="text-2xl mr-3">⏰</span>
+                    <div>
+                        <h3 class="font-medium text-zinc-100">Массовое продление</h3>
+                        <p class="text-sm text-zinc-400">Продлить премиум для группы пользователей</p>
+                    </div>
+                </div>
+            </button>
+
+            <button 
+                onclick="exportSubscriptions()"
+                class="bg-zinc-800 hover:bg-zinc-700 p-4 rounded-lg border border-zinc-700 hover:border-emerald-500 transition-colors text-left"
+            >
+                <div class="flex items-center">
+                    <span class="text-2xl mr-3">📊</span>
+                    <div>
+                        <h3 class="font-medium text-zinc-100">Экспорт данных</h3>
+                        <p class="text-sm text-zinc-400">Выгрузить статистику подписок</p>
+                    </div>
+                </div>
+            </button>
+
+            <button 
+                onclick="sendPremiumNotification()"
+                class="bg-zinc-800 hover:bg-zinc-700 p-4 rounded-lg border border-zinc-700 hover:border-emerald-500 transition-colors text-left"
+            >
+                <div class="flex items-center">
+                    <span class="text-2xl mr-3">📢</span>
+                    <div>
+                        <h3 class="font-medium text-zinc-100">Уведомления</h3>
+                        <p class="text-sm text-zinc-400">Отправить уведомления премиум-пользователям</p>
+                    </div>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Premium Users Table -->
+    <div class="mt-8">
+        <h2 class="text-lg font-medium text-zinc-100 mb-4">Премиум пользователи</h2>
+        <div class="bg-zinc-900 shadow rounded-lg overflow-hidden">
+            <div class="px-4 py-5 sm:p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-zinc-800">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Пользователь</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Дата активации</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Истекает</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Осталось дней</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-zinc-800 divide-y divide-zinc-700">
+                            {% for user in premium_users %}
+                            <tr class="hover:bg-zinc-700">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-8 w-8">
+                                            <div class="h-8 w-8 rounded-full bg-emerald-600 flex items-center justify-center">
+                                                <span class="text-white text-sm font-medium">{{ user.name[0] if user.name else '?' }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-zinc-100">{{ user.name or 'Без имени' }}</div>
+                                            <div class="text-sm text-zinc-400">ID: {{ user.tg_id }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-zinc-400">
+                                    {{ user.created_at.strftime('%d.%m.%Y') if user.created_at else '—' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-zinc-400">
+                                    {{ user.premium_until.strftime('%d.%m.%Y') if user.premium_until else '—' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if user.premium_until %}
+                                        {% set days_left = (user.premium_until - today).days %}
+                                        {% if days_left > 0 %}
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            {{ days_left }} дн.
+                                        </span>
+                                        {% else %}
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            Истек
+                                        </span>
+                                        {% endif %}
+                                    {% else %}
+                                    <span class="text-zinc-400">—</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <button 
+                                            onclick="extendPremium({{ user.tg_id }})"
+                                            class="text-emerald-400 hover:text-emerald-300"
+                                            title="Продлить премиум"
+                                        >
+                                            ⏰
+                                        </button>
+                                        <button 
+                                            onclick="revokePremium({{ user.tg_id }})"
+                                            class="text-red-400 hover:text-red-300"
+                                            title="Отозвать премиум"
+                                        >
+                                            🚫
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+async function bulkExtendPremium() {
+    const days = prompt('Введите количество дней для массового продления:', '30');
+    if (days && !isNaN(days)) {
+        if (confirm(`Продлить премиум на ${days} дней для всех активных премиум-пользователей?`)) {
+            try {
+                const response = await fetch('/api/subscriptions/bulk-extend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ days: parseInt(days) })
+                });
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Ошибка при массовом продлении');
+                }
+            } catch (error) {
+                alert('Ошибка при выполнении запроса');
+            }
+        }
+    }
+}
+
+async function exportSubscriptions() {
+    try {
+        const response = await fetch('/api/subscriptions/export');
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'subscriptions_export.csv';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } else {
+            alert('Ошибка при экспорте данных');
+        }
+    } catch (error) {
+        alert('Ошибка при выполнении запроса');
+    }
+}
+
+async function sendPremiumNotification() {
+    const message = prompt('Введите текст уведомления для премиум-пользователей:');
+    if (message) {
+        if (confirm('Отправить уведомление всем активным премиум-пользователям?')) {
+            try {
+                const response = await fetch('/api/subscriptions/notify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message })
+                });
+                if (response.ok) {
+                    alert('Уведомления отправлены');
+                } else {
+                    alert('Ошибка при отправке уведомлений');
+                }
+            } catch (error) {
+                alert('Ошибка при выполнении запроса');
+            }
+        }
+    }
+}
+
+async function extendPremium(userId) {
+    const days = prompt('Введите количество дней для продления премиума:', '30');
+    if (days && !isNaN(days)) {
+        try {
+            const response = await fetch(`/api/users/${userId}/extend-premium`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ days: parseInt(days) })
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при продлении премиума');
+            }
+        } catch (error) {
+            alert('Ошибка при выполнении запроса');
+        }
+    }
+}
+
+async function revokePremium(userId) {
+    if (confirm('Вы уверены, что хотите отозвать премиум у этого пользователя?')) {
+        try {
+            const response = await fetch(`/api/users/${userId}/premium`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: 'disable' })
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при отзыве премиума');
+            }
+        } catch (error) {
+            alert('Ошибка при выполнении запроса');
+        }
+    }
+}
+</script>
+{% endblock %}

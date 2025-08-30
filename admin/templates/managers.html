@@ -1,0 +1,363 @@
+{% extends "base.html" %}
+
+{% block title %}Менеджеры - Elyse Astro Admin{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-6 lg:px-8">
+    <div class="sm:flex sm:items-center">
+        <div class="sm:flex-auto">
+            <h1 class="text-2xl font-semibold text-zinc-100">Управление менеджерами</h1>
+            <p class="mt-2 text-sm text-zinc-400">Назначение и управление ролями менеджеров</p>
+        </div>
+        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+            <button 
+                onclick="addManager()"
+                class="inline-flex items-center justify-center rounded-md border border-transparent bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 sm:w-auto"
+            >
+                ➕ Добавить менеджера
+            </button>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- Total Managers -->
+        <div class="bg-zinc-900 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
+                            <span class="text-white text-lg">👥</span>
+                        </div>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-zinc-400 truncate">Всего менеджеров</dt>
+                            <dd class="text-lg font-medium text-zinc-100">{{ stats.total_managers }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Managers -->
+        <div class="bg-zinc-900 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
+                            <span class="text-white text-lg">✅</span>
+                        </div>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-zinc-400 truncate">Активных</dt>
+                            <dd class="text-lg font-medium text-zinc-100">{{ stats.active_managers }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Managers -->
+        <div class="bg-zinc-900 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
+                            <span class="text-white text-lg">🎧</span>
+                        </div>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-zinc-400 truncate">Поддержка</dt>
+                            <dd class="text-lg font-medium text-zinc-100">{{ stats.support_managers }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Managers -->
+        <div class="bg-zinc-900 overflow-hidden shadow rounded-lg">
+            <div class="p-5">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
+                            <span class="text-white text-lg">📝</span>
+                        </div>
+                    </div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-zinc-400 truncate">Контент</dt>
+                            <dd class="text-lg font-medium text-zinc-100">{{ stats.content_managers }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Managers Table -->
+    <div class="mt-8 flow-root">
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <div class="overflow-hidden shadow ring-1 ring-zinc-800 sm:rounded-lg">
+                    <table class="min-w-full divide-y divide-zinc-800">
+                        <thead class="bg-zinc-900">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Менеджер</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Роль</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Разрешения</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Статус</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Последняя активность</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-zinc-800 divide-y divide-zinc-700">
+                            {% for manager in managers %}
+                            <tr class="hover:bg-zinc-700">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <div class="h-10 w-10 rounded-full bg-emerald-600 flex items-center justify-center">
+                                                <span class="text-white font-medium">{{ manager.name[0] if manager.name else '?' }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-zinc-100">{{ manager.name or 'Без имени' }}</div>
+                                            <div class="text-sm text-zinc-400">ID: {{ manager.tg_id }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                                        {% if manager.role == 'admin' %}bg-red-100 text-red-800
+                                        {% elif manager.role == 'support' %}bg-purple-100 text-purple-800
+                                        {% elif manager.role == 'content' %}bg-yellow-100 text-yellow-800
+                                        {% else %}bg-zinc-100 text-zinc-800{% endif %}">
+                                        {% if manager.role == 'admin' %}👑 Админ
+                                        {% elif manager.role == 'support' %}🎧 Поддержка
+                                        {% elif manager.role == 'content' %}📝 Контент
+                                        {% else %}👤 Менеджер{% endif %}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-zinc-400">
+                                    <div class="space-y-1">
+                                        {% for permission in manager.permissions %}
+                                        <div class="flex items-center">
+                                            <span class="text-emerald-400 mr-2">✓</span>
+                                            <span>{{ permission }}</span>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if manager.active %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        ✅ Активен
+                                    </span>
+                                    {% else %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        ❌ Неактивен
+                                    </span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-zinc-400">
+                                    {% if manager.last_activity %}
+                                        {{ manager.last_activity.strftime('%d.%m.%Y %H:%M') }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <button 
+                                            onclick="editManager({{ manager.tg_id }})"
+                                            class="text-blue-400 hover:text-blue-300"
+                                            title="Редактировать"
+                                        >
+                                            ✏️
+                                        </button>
+                                        <button 
+                                            onclick="toggleManagerStatus({{ manager.tg_id }}, {{ 'true' if manager.active else 'false' }})"
+                                            class="{% if manager.active %}text-red-400 hover:text-red-300{% else %}text-green-400 hover:text-green-300{% endif %}"
+                                            title="{% if manager.active %}Деактивировать{% else %}Активировать{% endif %}"
+                                        >
+                                            {% if manager.active %}🚫{% else %}✅{% endif %}
+                                        </button>
+                                        {% if manager.role != 'admin' %}
+                                        <button 
+                                            onclick="removeManager({{ manager.tg_id }})"
+                                            class="text-red-400 hover:text-red-300"
+                                            title="Удалить"
+                                        >
+                                            🗑️
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Manager Modal -->
+<div id="managerModal" class="fixed inset-0 bg-zinc-900 bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-zinc-800 rounded-lg shadow-xl max-w-md w-full">
+            <div class="px-6 py-4 border-b border-zinc-700">
+                <h3 class="text-lg font-medium text-zinc-100" id="modalTitle">Добавить менеджера</h3>
+            </div>
+            <form id="managerForm" class="px-6 py-4">
+                <input type="hidden" id="managerId" name="id">
+                <div class="space-y-4">
+                    <div>
+                        <label for="tgId" class="block text-sm font-medium text-zinc-300">Telegram ID</label>
+                        <input type="number" id="tgId" name="tg_id" required
+                               class="mt-1 block w-full bg-zinc-700 border border-zinc-600 rounded-md px-3 py-2 text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                    <div>
+                        <label for="role" class="block text-sm font-medium text-zinc-300">Роль</label>
+                        <select id="role" name="role" required
+                                class="mt-1 block w-full bg-zinc-700 border border-zinc-600 rounded-md px-3 py-2 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="support">🎧 Поддержка</option>
+                            <option value="content">📝 Контент</option>
+                            <option value="manager">👤 Менеджер</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-zinc-300 mb-2">Разрешения</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="permissions" value="users_view" class="mr-2">
+                                <span class="text-sm text-zinc-300">Просмотр пользователей</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="permissions" value="subscriptions_manage" class="mr-2">
+                                <span class="text-sm text-zinc-300">Управление подписками</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="permissions" value="content_manage" class="mr-2">
+                                <span class="text-sm text-zinc-300">Управление контентом</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="permissions" value="support_chat" class="mr-2">
+                                <span class="text-sm text-zinc-300">Чат поддержки</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" onclick="closeManagerModal()"
+                            class="bg-zinc-600 hover:bg-zinc-700 px-4 py-2 rounded-md text-zinc-100 font-medium">
+                        Отмена
+                    </button>
+                    <button type="submit"
+                            class="bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-md text-white font-medium">
+                        Сохранить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function addManager() {
+    document.getElementById('modalTitle').textContent = 'Добавить менеджера';
+    document.getElementById('managerForm').reset();
+    document.getElementById('managerId').value = '';
+    document.getElementById('managerModal').classList.remove('hidden');
+}
+
+function editManager(managerId) {
+    // Здесь должна быть загрузка данных менеджера
+    document.getElementById('modalTitle').textContent = 'Редактировать менеджера';
+    document.getElementById('managerId').value = managerId;
+    document.getElementById('managerModal').classList.remove('hidden');
+}
+
+function closeManagerModal() {
+    document.getElementById('managerModal').classList.add('hidden');
+}
+
+document.getElementById('managerForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = {
+        tg_id: formData.get('tg_id'),
+        role: formData.get('role'),
+        permissions: Array.from(formData.getAll('permissions'))
+    };
+    
+    const managerId = formData.get('id');
+    const url = managerId ? `/api/managers/${managerId}` : '/api/managers';
+    const method = managerId ? 'PUT' : 'POST';
+    
+    try {
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        if (response.ok) {
+            closeManagerModal();
+            location.reload();
+        } else {
+            alert('Ошибка при сохранении менеджера');
+        }
+    } catch (error) {
+        alert('Ошибка при выполнении запроса');
+    }
+});
+
+async function toggleManagerStatus(managerId, currentStatus) {
+    const action = currentStatus === 'true' ? 'deactivate' : 'activate';
+    if (confirm(`Вы уверены, что хотите ${action === 'activate' ? 'активировать' : 'деактивировать'} менеджера?`)) {
+        try {
+            const response = await fetch(`/api/managers/${managerId}/status`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action })
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при изменении статуса менеджера');
+            }
+        } catch (error) {
+            alert('Ошибка при выполнении запроса');
+        }
+    }
+}
+
+async function removeManager(managerId) {
+    if (confirm('Вы уверены, что хотите удалить этого менеджера?')) {
+        try {
+            const response = await fetch(`/api/managers/${managerId}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при удалении менеджера');
+            }
+        } catch (error) {
+            alert('Ошибка при выполнении запроса');
+        }
+    }
+}
+</script>
+{% endblock %}

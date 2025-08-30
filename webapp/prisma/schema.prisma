@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ===== USER & AUTH =====
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  avatar    String?
+  role      String   @default("VIEWER") // "VIEWER", "EDITOR", "ADMIN"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  content       Content[]
+  auditLogs     AuditLog[]
+
+  @@map("users")
+}
+
+// ===== CONTENT MODEL =====
+model Content {
+  id            String   @id @default(cuid())
+  type          String   // "DAILY_FORECAST", "DAILY_ADVICE_HOME", etc.
+  title         String?
+  slug          String?  @unique
+  body          String?  // хранение структурированных блоков как текст
+  summary       String?
+  meta          String?  // JSON string for flexible data
+  effectiveDate DateTime @default(now())
+  status        String   @default("DRAFT") // "DRAFT", "PUBLISHED", "ARCHIVED"
+  authorId      String?
+  author        User?    @relation(fields: [authorId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("content")
+}
+
+// ===== SUBSCRIPTION PLANS =====
+model SubscriptionPlan {
+  id           String   @id @default(cuid())
+  name         String   // "Годовая подписка", "Месячная подписка", etc.
+  duration     String   // "365 дней", "30 дней", etc.
+  price        Float    // цена в рублях
+  pricePerWeek Float    // цена в неделю
+  savings      Int?     // процент экономии
+  features     String   // JSON string для массива возможностей
+  isActive     Boolean  @default(true)
+  isPopular    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("subscription_plans")
+}
+
+// ===== PROMO VIDEO =====
+model PromoVideo {
+  id             String   @id @default(cuid())
+  title          String   // название видео
+  description    String   // описание
+  videoUrl       String   // URL видео
+  thumbnailUrl   String?  // URL превью
+  isActive       Boolean  @default(true)
+  showOnMainPage Boolean  @default(true)
+  autoPlay       Boolean  @default(true)
+  showOnMobile   Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("promo_videos")
+}
+
+// ===== AUDIT LOGS =====
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  entityType String
+  entityId  String
+  details   String?  // JSON string for flexible details
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+// ===== TEMPLATES =====
+model Template {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  type      String   // e.g., "EMAIL", "SMS", "CONTENT_BLOCK"
+  subject   String?
+  body      String
+  meta      String?  // JSON string for flexible data
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("templates")
+}

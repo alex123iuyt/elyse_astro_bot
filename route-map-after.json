@@ -1,0 +1,989 @@
+{
+  "timestamp": "2025-08-27T09:38:11.037Z",
+  "totalRoutes": 76,
+  "critical": [],
+  "admin": [
+    {
+      "path": "/admin",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\layout.tsx",
+      "type": "layout"
+    },
+    {
+      "path": "/admin",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/admin/ai",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\ai\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/admin/bot-users",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\bot-users\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/admin/chats",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\chats\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/admin/content",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\content\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/admin/content/components/ContentForm",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\content\\components\\ContentForm.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/admin/notifications",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\notifications\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/admin/settings",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\settings\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/admin/users",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\users\\page.tsx",
+      "type": "page"
+    }
+  ],
+  "public": [
+    {
+      "path": "/",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/(admin)/users",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\(admin)\\users\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/(guard)/guard",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\(guard)\\guard.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/advisors",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\advisors\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/ai-settings/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\ai-settings\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/ai/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\ai\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/analytics/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\analytics\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/bot-users/[id]",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\bot-users\\[id]",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/bot-users/[id]/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\bot-users\\[id]\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/bot-users/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\bot-users\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/chats/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\chats\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/chats/sse/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\chats\\sse\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/content/generate/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\content\\generate\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/content/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\content\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/generate/today/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\generate\\today\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/notifications/[id]",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\[id]",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/notifications/[id]/errors/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\[id]\\errors\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/notifications/[id]/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\[id]\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/notifications/bulk/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\bulk\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/notifications/history/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\history\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/notifications/process/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\process\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/notifications/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/notifications/sse/[id]",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\sse\\[id]",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/notifications/sse/[id]/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\sse\\[id]\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/stats/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\stats\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/admin/users/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\users\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/ai/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\ai\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/auth/login/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\auth\\login\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/auth/logout/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\auth\\logout\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/auth/me/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\auth\\me\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/auth/register/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\auth\\register\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/auth/toggle/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\auth\\toggle\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/chat/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\chat\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/content/daily-forecast/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\content\\daily-forecast\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/content/daily-tips/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\content\\daily-tips\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/content/daily/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\content\\daily\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/content/lunar-today/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\content\\lunar-today\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/content/stories/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\content\\stories\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/ping/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\ping\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/tg/webhook/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\tg\\webhook\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/verify/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\verify\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/api/webhook/telegram/route",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\webhook\\telegram\\route.ts",
+      "type": "page"
+    },
+    {
+      "path": "/auth",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\auth\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/birth-chart",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\birth-chart\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/catalog",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\catalog\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/chat",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\chat\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/compat",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\compat\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/forecasts",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\forecasts\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/human-design",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\human-design\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/lunar",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\lunar\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/matrix",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\matrix\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/natal",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\natal\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/natal-wizard",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\natal-wizard\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/onboarding",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\onboarding\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/premium",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\premium\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/profile",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\profile\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/profile/edit",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\profile\\edit\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/readings",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\readings\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/register",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\register\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/settings",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\settings\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/stories",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\stories\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/stories/daily-tips",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\stories\\daily-tips\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/tarot",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\tarot\\page.tsx",
+      "type": "page"
+    },
+    {
+      "path": "/today",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\today\\page.tsx",
+      "type": "page"
+    }
+  ],
+  "allRoutes": [
+    {
+      "path": "",
+      "type": "layout",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\layout.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/(admin)/users",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\(admin)\\users\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/(guard)",
+      "type": "layout",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\(guard)\\layout.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/(guard)/guard",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\(guard)\\guard.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/admin",
+      "type": "layout",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\layout.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": true
+    },
+    {
+      "path": "/admin",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": true
+    },
+    {
+      "path": "/admin/ai",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\ai\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": true
+    },
+    {
+      "path": "/admin/bot-users",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\bot-users\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": true
+    },
+    {
+      "path": "/admin/chats",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\chats\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": true
+    },
+    {
+      "path": "/admin/content",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\content\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": true
+    },
+    {
+      "path": "/admin/content/components/ContentForm",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\content\\components\\ContentForm.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": true
+    },
+    {
+      "path": "/admin/notifications",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\notifications\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": true
+    },
+    {
+      "path": "/admin/settings",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\settings\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": true
+    },
+    {
+      "path": "/admin/users",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\admin\\users\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": true
+    },
+    {
+      "path": "/advisors",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\advisors\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/ai-settings/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\ai-settings\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/ai/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\ai\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/analytics/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\analytics\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/bot-users/[id]",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\bot-users\\[id]",
+      "isDynamic": true,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/bot-users/[id]/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\bot-users\\[id]\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/bot-users/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\bot-users\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/chats/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\chats\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/chats/sse/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\chats\\sse\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/content/generate/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\content\\generate\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/content/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\content\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/generate/today/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\generate\\today\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/notifications/[id]",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\[id]",
+      "isDynamic": true,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/notifications/[id]/errors/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\[id]\\errors\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/notifications/[id]/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\[id]\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/notifications/bulk/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\bulk\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/notifications/history/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\history\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/notifications/process/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\process\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/notifications/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/notifications/sse/[id]",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\sse\\[id]",
+      "isDynamic": true,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/notifications/sse/[id]/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\notifications\\sse\\[id]\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/stats/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\stats\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/admin/users/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\admin\\users\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/ai/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\ai\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/auth/login/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\auth\\login\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/auth/logout/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\auth\\logout\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/auth/me/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\auth\\me\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/auth/register/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\auth\\register\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/auth/toggle/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\auth\\toggle\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/chat/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\chat\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/content/daily-forecast/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\content\\daily-forecast\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/content/daily-tips/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\content\\daily-tips\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/content/daily/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\content\\daily\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/content/lunar-today/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\content\\lunar-today\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/content/stories/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\content\\stories\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/ping/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\ping\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/tg/webhook/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\tg\\webhook\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/verify/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\verify\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/api/webhook/telegram/route",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\api\\webhook\\telegram\\route.ts",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/auth",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\auth\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/birth-chart",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\birth-chart\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/catalog",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\catalog\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/chat",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\chat\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/compat",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\compat\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/forecasts",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\forecasts\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/human-design",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\human-design\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/lunar",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\lunar\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/matrix",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\matrix\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/natal",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\natal\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/natal-wizard",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\natal-wizard\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/onboarding",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\onboarding\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/premium",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\premium\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/profile",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\profile\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/profile/edit",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\profile\\edit\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/readings",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\readings\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/register",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\register\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/settings",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\settings\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/stories",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\stories\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/stories/daily-tips",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\stories\\daily-tips\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/tarot",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\tarot\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    },
+    {
+      "path": "/today",
+      "type": "page",
+      "file": "E:\\cursor\\builds\\Elyse_Astro_bot_miniAPP\\webapp\\app\\today\\page.tsx",
+      "isDynamic": false,
+      "isCatchAll": false,
+      "isAdmin": false
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "elyse-astro-scripts",
+  "version": "1.0.0",
+  "description": "Скрипты для Elyse Astro",
+  "main": "index.js",
+  "scripts": {
+    "create-admin": "node create-admin-sqlite.js"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.6",
+    "sqlite": "^5.0.1",
+    "bcryptjs": "^2.4.3"
+  }
+}
+
+
+

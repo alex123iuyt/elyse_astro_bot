@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Elyse Astro Admin{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'zinc': {
+                            50: '#fafafa',
+                            100: '#f4f4f5',
+                            200: '#e4e4e7',
+                            300: '#d4d4d8',
+                            400: '#a1a1aa',
+                            500: '#71717a',
+                            600: '#52525b',
+                            700: '#3f3f46',
+                            800: '#27272a',
+                            900: '#18181b',
+                            950: '#09090b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-zinc-900 border-b border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-xl font-bold text-emerald-400">Elyse Astro Admin</h1>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="/" class="text-zinc-300 hover:text-emerald-400 px-3 py-2 rounded-md text-sm font-medium">Дашборд</a>
+                            <a href="/users" class="text-zinc-300 hover:text-emerald-400 px-3 py-2 rounded-md text-sm font-medium">Пользователи</a>
+                            <a href="/subscriptions" class="text-zinc-300 hover:text-emerald-400 px-3 py-2 rounded-md text-sm font-medium">Подписки</a>
+                            <a href="/managers" class="text-zinc-300 hover:text-emerald-400 px-3 py-2 rounded-md text-sm font-medium">Менеджеры</a>
+                            <a href="/content" class="text-zinc-300 hover:text-emerald-400 px-3 py-2 rounded-md text-sm font-medium">Контент</a>
+                            <a href="/ai" class="text-zinc-300 hover:text-emerald-400 px-3 py-2 rounded-md text-sm font-medium">AI Песочница</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <span class="text-zinc-400 text-sm">Admin Panel</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-zinc-900 border-t border-zinc-800 mt-auto">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-zinc-400 text-sm">
+                Elyse Astro Admin Panel &copy; 2024
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
+
+
+

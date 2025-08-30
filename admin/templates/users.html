@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}Пользователи - Elyse Astro Admin{% endblock %}
+
+{% block content %}
+<div class="px-4 sm:px-6 lg:px-8">
+    <div class="sm:flex sm:items-center">
+        <div class="sm:flex-auto">
+            <h1 class="text-2xl font-semibold text-zinc-100">Пользователи</h1>
+            <p class="mt-2 text-sm text-zinc-400">Управление пользователями и подписками</p>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="mt-6">
+        <form method="GET" action="/users" class="flex gap-4">
+            <input 
+                type="text" 
+                name="query" 
+                value="{{ query }}" 
+                placeholder="Поиск по имени, знаку или ID..."
+                class="flex-1 bg-zinc-800 border border-zinc-700 rounded-md px-3 py-2 text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            >
+            <button 
+                type="submit" 
+                class="bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-md text-white font-medium"
+            >
+                🔍 Поиск
+            </button>
+        </form>
+    </div>
+
+    <!-- Users Table -->
+    <div class="mt-8 flow-root">
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <div class="overflow-hidden shadow ring-1 ring-zinc-800 sm:rounded-lg">
+                    <table class="min-w-full divide-y divide-zinc-800">
+                        <thead class="bg-zinc-900">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Пользователь</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Знак</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Статус</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Премиум</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Последняя активность</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-zinc-400 uppercase tracking-wider">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-zinc-800 divide-y divide-zinc-700">
+                            {% for user in users %}
+                            <tr class="hover:bg-zinc-700">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10">
+                                            <div class="h-10 w-10 rounded-full bg-emerald-600 flex items-center justify-center">
+                                                <span class="text-white font-medium">{{ user.name[0] if user.name else '?' }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-zinc-100">{{ user.name or 'Без имени' }}</div>
+                                            <div class="text-sm text-zinc-400">ID: {{ user.tg_id }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-700 text-zinc-300">
+                                        {{ user.zodiac or '—' }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if user.active %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        ✅ Активен
+                                    </span>
+                                    {% else %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                        ❌ Неактивен
+                                    </span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if user.is_premium and user.premium_until %}
+                                        {% if user.premium_until > today %}
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            ⭐ Премиум
+                                        </span>
+                                        <div class="text-xs text-zinc-400 mt-1">до {{ user.premium_until.strftime('%d.%m.%Y') }}</div>
+                                        {% else %}
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            ⏰ Истек
+                                        </span>
+                                        {% endif %}
+                                    {% else %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800">
+                                        💰 Базовый
+                                    </span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-zinc-400">
+                                    {% if user.last_sent_date %}
+                                        {{ user.last_sent_date.strftime('%d.%m.%Y') }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex space-x-2">
+                                        <button 
+                                            onclick="togglePremium({{ user.tg_id }}, {{ 'true' if user.is_premium else 'false' }})"
+                                            class="text-emerald-400 hover:text-emerald-300"
+                                        >
+                                            {% if user.is_premium %}🔒{% else %}🔓{% endif %}
+                                        </button>
+                                        <button 
+                                            onclick="extendPremium({{ user.tg_id }})"
+                                            class="text-yellow-400 hover:text-yellow-300"
+                                        >
+                                            ⏰
+                                        </button>
+                                        <button 
+                                            onclick="toggleActive({{ user.tg_id }}, {{ 'true' if user.active else 'false' }})"
+                                            class="{% if user.active %}text-red-400 hover:text-red-300{% else %}text-green-400 hover:text-green-300{% endif %}"
+                                        >
+                                            {% if user.active %}🚫{% else %}✅{% endif %}
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if users|length >= 100 %}
+    <div class="mt-6 flex items-center justify-between">
+        <div class="text-sm text-zinc-400">
+            Показано {{ users|length }} пользователей
+        </div>
+        <div class="text-sm text-zinc-400">
+            Для просмотра большего количества используйте поиск
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+async function togglePremium(userId, currentStatus) {
+    const action = currentStatus === 'true' ? 'disable' : 'enable';
+    if (confirm(`Вы уверены, что хотите ${action === 'enable' ? 'включить' : 'отключить'} премиум для пользователя ${userId}?`)) {
+        try {
+            const response = await fetch(`/api/users/${userId}/premium`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action })
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при изменении статуса премиума');
+            }
+        } catch (error) {
+            alert('Ошибка при выполнении запроса');
+        }
+    }
+}
+
+async function extendPremium(userId) {
+    const days = prompt('Введите количество дней для продления премиума:', '30');
+    if (days && !isNaN(days)) {
+        try {
+            const response = await fetch(`/api/users/${userId}/extend-premium`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ days: parseInt(days) })
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при продлении премиума');
+            }
+        } catch (error) {
+            alert('Ошибка при выполнении запроса');
+        }
+    }
+}
+
+async function toggleActive(userId, currentStatus) {
+    const action = currentStatus === 'true' ? 'deactivate' : 'activate';
+    if (confirm(`Вы уверены, что хотите ${action === 'activate' ? 'активировать' : 'деактивировать'} пользователя ${userId}?`)) {
+        try {
+            const response = await fetch(`/api/users/${userId}/active`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action })
+            });
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Ошибка при изменении статуса активности');
+            }
+        } catch (error) {
+            alert('Ошибка при выполнении запроса');
+        }
+    }
+}
+</script>
+{% endblock %}
