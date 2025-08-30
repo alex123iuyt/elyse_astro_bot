@@ -463,14 +463,73 @@ function PlanFormModal({ plan, onSave, onCancel, isSaving }: {
     price: plan?.price || 0,
     pricePerWeek: plan?.pricePerWeek || 0,
     savings: plan?.savings || 0,
-    features: plan?.features || [''],
+    features: plan?.features && Array.isArray(plan.features) ? plan.features : [''],
     isActive: plan?.isActive ?? true,
     isPopular: plan?.isPopular ?? false
   });
 
+  const [isFree, setIsFree] = useState(plan?.price === 0);
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
+
+  // Автоматически обновляем цены при изменении чекбокса бесплатного тарифа
+  useEffect(() => {
+    if (isFree) {
+      setFormData(prev => ({
+        ...prev,
+        price: 0,
+        pricePerWeek: 0
+      }));
+    }
+  }, [isFree]);
+
+  const validateForm = () => {
+    const newErrors: {[key: string]: string} = {};
+    
+    // Проверка названия
+    if (!formData.name.trim()) {
+      newErrors.name = 'Название тарифа обязательно';
+    }
+    
+    // Проверка длительности
+    if (!formData.duration.trim()) {
+      newErrors.duration = 'Длительность обязательна';
+    }
+    
+    // Проверка цены
+    if (!isFree) {
+      if (formData.price <= 0) {
+        newErrors.price = 'Цена должна быть больше 0';
+      }
+      if (formData.pricePerWeek <= 0) {
+        newErrors.pricePerWeek = 'Цена в неделю должна быть больше 0';
+      }
+    }
+    
+    // Проверка возможностей
+    if (!formData.features || formData.features.length === 0 || 
+        formData.features.some(f => !f.trim())) {
+      newErrors.features = 'Добавьте хотя бы одну возможность';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    // Если тариф бесплатный, устанавливаем цены в 0
+    const dataToSave = isFree ? {
+      ...formData,
+      price: 0,
+      pricePerWeek: 0
+    } : formData;
+    
+    onSave(dataToSave);
   };
 
   const addFeature = () => {
@@ -512,6 +571,7 @@ function PlanFormModal({ plan, onSave, onCancel, isSaving }: {
                 className="w-full bg-zinc-700 border border-zinc-600 rounded-lg px-3 py-2 text-white"
                 required
               />
+              {errors.name && <p className="text-red-400 text-sm mt-1">{errors.name}</p>}
             </div>
             
             <div>
@@ -524,29 +584,74 @@ function PlanFormModal({ plan, onSave, onCancel, isSaving }: {
                 placeholder="например: 30 дней"
                 required
               />
+              {errors.duration && <p className="text-red-400 text-sm mt-1">{errors.duration}</p>}
+            </div>
+            
+            <div className="col-span-2">
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={isFree}
+                  onChange={(e) => setIsFree(e.target.checked)}
+                  className="rounded"
+                />
+                <span className="text-sm font-medium">Бесплатный тариф</span>
+              </label>
             </div>
             
             <div>
               <label className="block text-sm font-medium mb-2">Цена (₽)</label>
               <input
                 type="number"
-                value={formData.price}
-                onChange={(e) => setFormData(prev => ({ ...prev, price: parseInt(e.target.value) || 0 }))}
-                className="w-full bg-zinc-700 border border-zinc-600 rounded-lg px-3 py-2 text-white"
-                required
+                value={isFree ? 0 : formData.price}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Убираем нули в начале
+                  if (value.startsWith('0') && value.length > 1) {
+                    const cleanValue = value.replace(/^0+/, '');
+                    setFormData(prev => ({ ...prev, price: parseInt(cleanValue) || 0 }));
+                  } else {
+                    setFormData(prev => ({ ...prev, price: parseInt(value) || 0 }));
+                  }
+                }}
+                className={`w-full border rounded-lg px-3 py-2 text-white ${
+                  isFree 
+                    ? 'bg-zinc-600 border-zinc-500 cursor-not-allowed' 
+                    : 'bg-zinc-700 border-zinc-600'
+                }`}
+                disabled={isFree}
+                min="0"
+                required={!isFree}
               />
+              {errors.price && <p className="text-red-400 text-sm mt-1">{errors.price}</p>}
             </div>
             
             <div>
               <label className="block text-sm font-medium mb-2">Цена в неделю (₽)</label>
               <input
                 type="number"
-                value={formData.pricePerWeek}
-                onChange={(e) => setFormData(prev => ({ ...prev, pricePerWeek: parseFloat(e.target.value) || 0 }))}
-                className="w-full bg-zinc-700 border border-zinc-600 rounded-lg px-3 py-2 text-white"
+                value={isFree ? 0 : formData.pricePerWeek}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Убираем нули в начале
+                  if (value.startsWith('0') && value.length > 1) {
+                    const cleanValue = value.replace(/^0+/, '');
+                    setFormData(prev => ({ ...prev, pricePerWeek: parseFloat(cleanValue) || 0 }));
+                  } else {
+                    setFormData(prev => ({ ...prev, pricePerWeek: parseFloat(value) || 0 }));
+                  }
+                }}
+                className={`w-full border rounded-lg px-3 py-2 text-white ${
+                  isFree 
+                    ? 'bg-zinc-600 border-zinc-500 cursor-not-allowed' 
+                    : 'bg-zinc-700 border-zinc-600'
+                }`}
+                disabled={isFree}
                 step="0.01"
-                required
+                min="0"
+                required={!isFree}
               />
+              {errors.pricePerWeek && <p className="text-red-400 text-sm mt-1">{errors.pricePerWeek}</p>}
             </div>
             
             <div>
@@ -554,7 +659,16 @@ function PlanFormModal({ plan, onSave, onCancel, isSaving }: {
               <input
                 type="number"
                 value={formData.savings}
-                onChange={(e) => setFormData(prev => ({ ...prev, savings: parseInt(e.target.value) || 0 }))}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Убираем нули в начале
+                  if (value.startsWith('0') && value.length > 1) {
+                    const cleanValue = value.replace(/^0+/, '');
+                    setFormData(prev => ({ ...prev, savings: parseInt(cleanValue) || 0 }));
+                  } else {
+                    setFormData(prev => ({ ...prev, savings: parseInt(value) || 0 }));
+                  }
+                }}
                 className="w-full bg-zinc-700 border border-zinc-600 rounded-lg px-3 py-2 text-white"
                 min="0"
                 max="100"
@@ -564,27 +678,32 @@ function PlanFormModal({ plan, onSave, onCancel, isSaving }: {
           
           <div className="space-y-2">
             <label className="block text-sm font-medium">Возможности</label>
-            {formData.features.map((feature, index) => (
-              <div key={index} className="flex space-x-2">
-                <input
-                  type="text"
-                  value={feature}
-                  onChange={(e) => updateFeature(index, e.target.value)}
-                  className="flex-1 bg-zinc-700 border border-zinc-600 rounded-lg px-3 py-2 text-white"
-                  placeholder="Описание возможности"
-                  required
-                />
-                {formData.features.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeFeature(index)}
-                    className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg"
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-            ))}
+            {formData.features && Array.isArray(formData.features) ? (
+              formData.features.map((feature, index) => (
+                <div key={index} className="flex space-x-2">
+                  <input
+                    type="text"
+                    value={feature}
+                    onChange={(e) => updateFeature(index, e.target.value)}
+                    className="flex-1 bg-zinc-700 border border-zinc-600 rounded-lg px-3 py-2 text-white"
+                    placeholder="Описание возможности"
+                    required
+                  />
+                  {formData.features.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeFeature(index)}
+                      className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="text-zinc-400 text-sm">Загрузка возможностей...</div>
+            )}
+            {errors.features && <p className="text-red-400 text-sm">{errors.features}</p>}
             <button
               type="button"
               onClick={addFeature}
