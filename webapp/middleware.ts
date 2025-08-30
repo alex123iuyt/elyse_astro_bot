@@ -37,6 +37,13 @@ export function middleware(request: NextRequest) {
     const token = request.cookies.get('elyse_token')
 
     if (!token) {
+      // Предотвращаем зацикливание - проверяем, не находимся ли уже на странице входа
+      const referer = request.headers.get('referer')
+      if (referer && referer.includes('/auth')) {
+        console.log('⚠️ Preventing auth loop, redirecting to /today');
+        return NextResponse.redirect(new URL('/today', request.url))
+      }
+      
       // Мягкая проверка для /admin/** → редирект на /auth?next=/admin/dashboard&scope=admin
       const loginUrl = new URL('/auth', request.url)
       loginUrl.searchParams.set('next', '/admin/dashboard')

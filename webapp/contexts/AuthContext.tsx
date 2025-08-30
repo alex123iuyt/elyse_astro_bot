@@ -64,12 +64,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
+      console.log('🔐 Calling logout API...');
+      const response = await fetch('/api/auth/logout', { 
+        method: 'POST', 
+        credentials: 'include' 
+      });
+      
+      if (response.ok) {
+        console.log('✅ Logout API successful');
+      } else {
+        console.warn('⚠️ Logout API returned non-OK status:', response.status);
+      }
+    } catch (error) {
+      console.error('❌ Logout API error:', error);
     } finally {
+      console.log('🧹 Clearing local state...');
+      // Очищаем состояние независимо от результата API
       setUser(null);
       setIsAuthenticated(false);
+      setIsLoading(false);
+      
+      // Очищаем все локальные данные
       localStorage.clear();
-      // UI слой решит, куда уводить. Для админки — в лэйауте.
+      sessionStorage.clear();
+      
+      // Очищаем cookies на клиенте (если они есть)
+      document.cookie.split(";").forEach(function(c) { 
+        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+      });
+      
+      console.log('✅ Local state cleared');
     }
   };
 

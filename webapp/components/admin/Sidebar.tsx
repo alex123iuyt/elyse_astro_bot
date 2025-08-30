@@ -33,8 +33,22 @@ export function Sidebar() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    await logout();
-    router.replace('/auth?next=/admin/dashboard&scope=admin');
+    try {
+      console.log('🚪 Logging out...');
+      await logout();
+      console.log('✅ Logout successful, redirecting to auth');
+      // Очищаем все локальные данные
+      localStorage.clear();
+      sessionStorage.clear();
+      // Перенаправляем на страницу входа
+      router.replace('/auth');
+    } catch (error) {
+      console.error('❌ Logout error:', error);
+      // Даже при ошибке очищаем состояние и перенаправляем
+      localStorage.clear();
+      sessionStorage.clear();
+      router.replace('/auth');
+    }
   };
   return (
     <aside className="fixed inset-y-0 left-0 z-50 w-[264px] bg-zinc-900 border-r border-zinc-800">

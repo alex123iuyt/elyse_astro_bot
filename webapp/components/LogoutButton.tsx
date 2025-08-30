@@ -8,11 +8,22 @@ export default function LogoutButton(){
 
   const onLogout = async () => {
     try {
+      console.log('🚪 Client logout initiated...');
       await logout();
+      console.log('✅ Client logout successful');
+      
+      // Очищаем все локальные данные
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Перенаправляем на страницу входа
       router.replace('/auth');
     } catch (error) {
-      console.error('Logout error:', error);
-      // Даже если произошла ошибка, очищаем локальное состояние
+      console.error('❌ Client logout error:', error);
+      
+      // Даже при ошибке очищаем состояние и перенаправляем
+      localStorage.clear();
+      sessionStorage.clear();
       router.replace('/auth');
     }
   };
