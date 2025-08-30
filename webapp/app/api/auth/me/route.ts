@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       user: {
-        id: user.id,
+        id: user.id.toString(), // Преобразуем ID в строку
         email: user.email,
         name: user.name,
         role: user.role,

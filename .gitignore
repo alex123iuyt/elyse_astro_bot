@@ -82,3 +82,6 @@ ENV/
 
 # OS
 Thumbs.db
+
+# Uploads
+webapp/public/uploads/

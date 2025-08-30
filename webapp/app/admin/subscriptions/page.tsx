@@ -3,6 +3,12 @@ import { useState, useEffect } from 'react';
 import { AdminHeader } from '../../../components/admin/AdminHeader';
 import Loader from '../../../components/ui/Loader';
 
+function toast(message: string, type: 'success'|'error'|'info' = 'info') {
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('app:toast', { detail: { message, type } }));
+  }
+}
+
 interface SubscriptionPlan {
   id: string;
   name: string;
@@ -812,6 +818,50 @@ function VideoFormModal({ video, onSave, onCancel, isSaving }: {
     showOnMobile: video?.showOnMobile ?? true
   });
 
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
+  const uploadFile = async (file: File, type: 'video' | 'thumbnail') => {
+    setIsUploading(true);
+    setUploadProgress(0);
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('type', type);
+      
+      const response = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        if (type === 'video') {
+          setFormData(prev => ({ ...prev, videoUrl: data.fileUrl }));
+        } else {
+          setFormData(prev => ({ ...prev, thumbnailUrl: data.fileUrl }));
+        }
+        toast('Файл загружен успешно', 'success');
+      } else {
+        toast(data.error || 'Ошибка загрузки файла', 'error');
+      }
+    } catch (error) {
+      toast('Ошибка сети при загрузке файла', 'error');
+    } finally {
+      setIsUploading(false);
+      setUploadProgress(0);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'video' | 'thumbnail') => {
+    const file = e.target.files?.[0];
+    if (file) {
+      uploadFile(file, type);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(formData);
@@ -848,26 +898,50 @@ function VideoFormModal({ video, onSave, onCancel, isSaving }: {
           </div>
           
           <div>
-            <label className="block text-sm font-medium mb-2">URL видео</label>
-            <input
-              type="url"
-              value={formData.videoUrl}
-              onChange={(e) => setFormData(prev => ({ ...prev, videoUrl: e.target.value }))}
-              className="w-full bg-zinc-700 border border-zinc-600 rounded-lg px-3 py-2 text-white"
-              placeholder="https://example.com/video.mp4"
-              required
-            />
+            <label className="block text-sm font-medium mb-2">Видео файл</label>
+            <div className="space-y-2">
+              <input
+                type="file"
+                accept="video/*"
+                onChange={(e) => handleFileChange(e, 'video')}
+                className="w-full bg-zinc-700 border border-zinc-600 rounded-lg px-3 py-2 text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-700"
+                disabled={isUploading}
+              />
+              {formData.videoUrl && (
+                <div className="flex items-center space-x-2 text-sm text-zinc-400">
+                  <span>✓ Загружено:</span>
+                  <a href={formData.videoUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300">
+                    {formData.videoUrl.split('/').pop()}
+                  </a>
+                </div>
+              )}
+              {isUploading && (
+                <div className="text-sm text-emerald-400">
+                  Загрузка файла... {uploadProgress}%
+                </div>
+              )}
+            </div>
           </div>
           
           <div>
-            <label className="block text-sm font-medium mb-2">URL превью (опционально)</label>
-            <input
-              type="url"
-              value={formData.thumbnailUrl}
-              onChange={(e) => setFormData(prev => ({ ...prev, thumbnailUrl: e.target.value }))}
-              className="w-full bg-zinc-700 border border-zinc-600 rounded-lg px-3 py-2 text-white"
-              placeholder="https://example.com/thumbnail.jpg"
-            />
+            <label className="block text-sm font-medium mb-2">Превью (опционально)</label>
+            <div className="space-y-2">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleFileChange(e, 'thumbnail')}
+                className="w-full bg-zinc-700 border border-zinc-600 rounded-lg px-3 py-2 text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700"
+                disabled={isUploading}
+              />
+              {formData.thumbnailUrl && (
+                <div className="flex items-center space-x-2 text-sm text-zinc-400">
+                  <span>✓ Загружено:</span>
+                  <a href={formData.thumbnailUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
+                    {formData.thumbnailUrl.split('/').pop()}
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

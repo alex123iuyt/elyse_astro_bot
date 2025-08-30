@@ -31,10 +31,14 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Вход выполнен успешно',
       user: {
-        id: result.user.id,
+        id: result.user.id.toString(), // Преобразуем ID в строку
         email: result.user.email,
         name: result.user.name,
-        role: result.user.role
+        role: result.user.role,
+        zodiac_sign: result.user.zodiac_sign,
+        is_premium: result.user.is_premium,
+        birth_date: result.user.birth_date,
+        birth_city: result.user.birth_city
       }
     });
 
