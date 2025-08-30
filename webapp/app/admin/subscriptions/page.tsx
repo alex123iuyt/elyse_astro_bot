@@ -8,11 +8,11 @@ interface SubscriptionPlan {
   name: string;
   duration: string;
   price: number;
-  pricePerWeek: number;
+  discount: number;
   savings?: number;
   isPopular: boolean;
   isActive: boolean;
-  features: string[];
+  features: string[] | string;
 }
 
 interface PromoVideo {
@@ -314,18 +314,36 @@ export default function SubscriptionsPage() {
                       <p className="text-white">₽{plan.price.toLocaleString()}</p>
                     </div>
                     <div>
-                      <span className="text-zinc-400">В неделю:</span>
-                      <p className="text-white">₽{plan.pricePerWeek.toFixed(2)}</p>
+                      <span className="text-zinc-400">Выгода:</span>
+                      <p className="text-white text-emerald-400">₽{plan.discount.toLocaleString()}</p>
                     </div>
                   </div>
                   
                   <div className="mt-3">
                     <span className="text-zinc-400 text-sm">Возможности:</span>
                     <ul className="list-disc list-inside text-sm text-zinc-300 mt-1">
-                      {plan.features && Array.isArray(plan.features) ? (
-                        plan.features.map((feature, index) => (
-                          <li key={index}>{feature}</li>
-                        ))
+                      {plan.features ? (
+                        Array.isArray(plan.features) ? (
+                          plan.features.map((feature, index) => (
+                            <li key={index}>{feature}</li>
+                          ))
+                        ) : (
+                          // Если features - это JSON строка, парсим её
+                          (() => {
+                            try {
+                              const parsedFeatures = JSON.parse(plan.features as string);
+                              if (Array.isArray(parsedFeatures)) {
+                                return parsedFeatures.map((feature, index) => (
+                                  <li key={index}>{feature}</li>
+                                ));
+                              }
+                            } catch (e) {
+                              // Если не удалось распарсить, показываем как есть
+                              return <li>{plan.features}</li>;
+                            }
+                            return <li className="text-zinc-500">Возможности не указаны</li>;
+                          })()
+                        )
                       ) : (
                         <li className="text-zinc-500">Возможности не указаны</li>
                       )}
@@ -461,9 +479,23 @@ function PlanFormModal({ plan, onSave, onCancel, isSaving }: {
     name: plan?.name || '',
     duration: plan?.duration || '',
     price: plan?.price || 0,
-    pricePerWeek: plan?.pricePerWeek || 0,
+    discount: plan?.discount || 0,
     savings: plan?.savings || 0,
-    features: plan?.features && Array.isArray(plan.features) ? plan.features : [''],
+    features: (() => {
+      if (plan?.features) {
+        if (Array.isArray(plan.features)) {
+          return plan.features;
+        } else {
+          try {
+            const parsedFeatures = JSON.parse(plan.features as string);
+            return Array.isArray(parsedFeatures) ? parsedFeatures : [''];
+          } catch (e) {
+            return [''];
+          }
+        }
+      }
+      return [''];
+    })(),
     isActive: plan?.isActive ?? true,
     isPopular: plan?.isPopular ?? false
   });
@@ -477,10 +509,26 @@ function PlanFormModal({ plan, onSave, onCancel, isSaving }: {
       setFormData(prev => ({
         ...prev,
         price: 0,
-        pricePerWeek: 0
+        discount: 0
       }));
     }
   }, [isFree]);
+
+  // Автоматически рассчитываем выгоду при изменении цены или скидки
+  useEffect(() => {
+    if (!isFree && formData.price > 0 && formData.savings > 0) {
+      const discount = (formData.price * formData.savings) / 100;
+      setFormData(prev => ({
+        ...prev,
+        discount: Math.round(discount)
+      }));
+    } else if (!isFree && formData.price > 0) {
+      setFormData(prev => ({
+        ...prev,
+        discount: 0
+      }));
+    }
+  }, [formData.price, formData.savings, isFree]);
 
   const validateForm = () => {
     const newErrors: {[key: string]: string} = {};
@@ -499,9 +547,6 @@ function PlanFormModal({ plan, onSave, onCancel, isSaving }: {
     if (!isFree) {
       if (formData.price <= 0) {
         newErrors.price = 'Цена должна быть больше 0';
-      }
-      if (formData.pricePerWeek <= 0) {
-        newErrors.pricePerWeek = 'Цена в неделю должна быть больше 0';
       }
     }
     
@@ -526,10 +571,16 @@ function PlanFormModal({ plan, onSave, onCancel, isSaving }: {
     const dataToSave = isFree ? {
       ...formData,
       price: 0,
-      pricePerWeek: 0
+      discount: 0
     } : formData;
     
-    onSave(dataToSave);
+    // Преобразуем features в JSON строку для Prisma
+    const dataForPrisma = {
+      ...dataToSave,
+      features: JSON.stringify(dataToSave.features)
+    };
+    
+    onSave(dataForPrisma);
   };
 
   const addFeature = () => {
@@ -627,31 +678,17 @@ function PlanFormModal({ plan, onSave, onCancel, isSaving }: {
             </div>
             
             <div>
-              <label className="block text-sm font-medium mb-2">Цена в неделю (₽)</label>
+              <label className="block text-sm font-medium mb-2">Выгода (₽)</label>
               <input
                 type="number"
-                value={isFree ? 0 : formData.pricePerWeek}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  // Убираем нули в начале
-                  if (value.startsWith('0') && value.length > 1) {
-                    const cleanValue = value.replace(/^0+/, '');
-                    setFormData(prev => ({ ...prev, pricePerWeek: parseFloat(cleanValue) || 0 }));
-                  } else {
-                    setFormData(prev => ({ ...prev, pricePerWeek: parseFloat(value) || 0 }));
-                  }
-                }}
-                className={`w-full border rounded-lg px-3 py-2 text-white ${
-                  isFree 
-                    ? 'bg-zinc-600 border-zinc-500 cursor-not-allowed' 
-                    : 'bg-zinc-700 border-zinc-600'
-                }`}
-                disabled={isFree}
-                step="0.01"
-                min="0"
-                required={!isFree}
+                value={formData.discount}
+                className="w-full bg-zinc-600 border border-zinc-500 rounded-lg px-3 py-2 text-white cursor-not-allowed"
+                disabled
+                readOnly
               />
-              {errors.pricePerWeek && <p className="text-red-400 text-sm mt-1">{errors.pricePerWeek}</p>}
+              <p className="text-xs text-zinc-400 mt-1">
+                Автоматически рассчитывается: {formData.savings > 0 ? `Цена со скидкой ${formData.savings}%` : 'Без скидки'}
+              </p>
             </div>
             
             <div>

@@ -49,7 +49,7 @@ model SubscriptionPlan {
   name         String   // "Годовая подписка", "Месячная подписка", etc.
   duration     String   // "365 дней", "30 дней", etc.
   price        Float    // цена в рублях
-  pricePerWeek Float    // цена в неделю
+  discount     Float    // выгода в рублях (автоматически рассчитывается)
   savings      Int?     // процент экономии
   features     String   // JSON string для массива возможностей
   isActive     Boolean  @default(true)

@@ -12,10 +12,10 @@ export async function PUT(
     const { id } = params;
     const body = await request.json();
     
-    const { name, duration, price, pricePerWeek, savings, features, isActive, isPopular } = body;
+    const { name, duration, price, discount, savings, features, isActive, isPopular } = body;
 
     // Валидация
-    if (!name || !duration || !price || !pricePerWeek || !features) {
+    if (!name || !duration || !price || !features) {
       return NextResponse.json(
         { error: 'Не все обязательные поля заполнены' },
         { status: 400 }
@@ -28,9 +28,9 @@ export async function PUT(
         name,
         duration,
         price: parseFloat(price),
-        pricePerWeek: parseFloat(pricePerWeek),
+        discount: parseFloat(discount || 0),
         savings: savings ? parseInt(savings) : null,
-        features: features.filter((f: string) => f.trim()),
+        features: features, // features уже JSON строка
         isActive: isActive ?? true,
         isPopular: isPopular ?? false
       }
