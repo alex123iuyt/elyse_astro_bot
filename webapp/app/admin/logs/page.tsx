@@ -10,7 +10,7 @@ interface LogEntry {
   id: string;
   timestamp: string;
   level: 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL';
-  category: 'SYSTEM' | 'USER' | 'CONTENT' | 'AI' | 'PAYMENT';
+  category: 'SYSTEM' | 'USER' | 'CONTENT' | 'AI' | 'PAYMENT' | 'BROADCAST';
   message: string;
   userId?: string;
   userName?: string;
@@ -87,7 +87,8 @@ export default function LogsPage() {
       USER: 'bg-emerald-600 text-white',
       CONTENT: 'bg-blue-600 text-white',
       AI: 'bg-purple-600 text-white',
-      PAYMENT: 'bg-yellow-600 text-white'
+      PAYMENT: 'bg-yellow-600 text-white',
+      BROADCAST: 'bg-orange-600 text-white'
     };
     
     return (
@@ -233,6 +234,7 @@ export default function LogsPage() {
             <option value="CONTENT">CONTENT</option>
             <option value="AI">AI</option>
             <option value="PAYMENT">PAYMENT</option>
+            <option value="BROADCAST">BROADCAST</option>
           </select>
 
           <select

@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ls } from '../../lib/storage';
+import { PrivateContent } from '../../components/AuthContentGate';
+
 
 type Message = {
   id: string;
@@ -176,30 +178,34 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <div className="p-4 border-b border-zinc-800">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
-              <span className="text-lg">👩</span>
+    <PrivateContent
+      title="Персональный астролог"
+      description="Войдите в аккаунт, чтобы получить доступ к персональному ИИ-астрологу и задать свои вопросы"
+    >
+      <div className="min-h-screen bg-black text-white">
+        {/* Header */}
+        <div className="p-4 border-b border-zinc-800">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+                <span className="text-lg">👩</span>
+              </div>
+              <div>
+                <h1 className="text-xl font-semibold">Моника</h1>
+                <div className="text-sm text-emerald-400">Ваш астролог</div>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-semibold">Моника</h1>
-              <div className="text-sm text-emerald-400">Ваш астролог</div>
-            </div>
+            <button 
+              onClick={() => router.back()}
+              className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center"
+            >
+              ←
+            </button>
           </div>
-          <button 
-            onClick={() => router.back()}
-            className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center"
-          >
-            ←
-          </button>
         </div>
-      </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 p-4 space-y-4 pb-32">
+      <div className="flex-1 p-4 space-y-4 pb-40">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -239,7 +245,7 @@ export default function ChatPage() {
       </div>
 
       {/* Chat Input */}
-      <div className="fixed bottom-20 left-4 right-4 p-4 bg-zinc-900 border-t border-zinc-800">
+      <div className="fixed bottom-20 left-4 right-4 p-4 bg-zinc-900 border-t border-zinc-800 z-40">
         <div className="flex space-x-3">
           <input
             type="text"
@@ -290,6 +296,7 @@ export default function ChatPage() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </PrivateContent>
   );
 }

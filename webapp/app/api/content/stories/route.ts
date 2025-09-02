@@ -21,11 +21,7 @@ export async function GET(request: NextRequest) {
     // Построение запроса для stories
     const where: any = {
       type: 'STORIES',
-      status: 'PUBLISHED',
-      OR: [
-        { sign: sign },
-        { sign: null } // Общие stories для всех знаков
-      ]
+      status: 'PUBLISHED'
     }
 
     // Фильтруем по дате
@@ -64,7 +60,7 @@ export async function GET(request: NextRequest) {
       take: 10,
     })
 
-    // Преобразуем в нужный формат для stories
+    // Преобразуем в нужный формат для stories и фильтруем по знаку
     const stories = contentItems.map(item => {
       // Парсим meta как JSON строку
       let meta = {};
@@ -75,7 +71,13 @@ export async function GET(request: NextRequest) {
       } catch (e) {
         console.warn('Failed to parse meta JSON:', e);
       }
-      
+
+      // Фильтруем по знаку зодиака (если указан конкретный знак)
+      const itemSign = meta.sign;
+      if (sign !== 'SAGITTARIUS' && itemSign && itemSign !== sign && itemSign !== null) {
+        return null; // Пропускаем stories для других знаков
+      }
+
       return {
         id: item.id,
         type: meta.type || 'DAILY_TIPS', // DAILY_TIPS, DO_DONT, TODAYS_LUCK

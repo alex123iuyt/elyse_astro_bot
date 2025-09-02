@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Animations for bottom sheet */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+/* Global Navigation Safe Area */
+.h-safe-bottom {
+  height: env(safe-area-inset-bottom, 0px);
+}
+
 :root {
   --background: 0 0% 100%;
   --foreground: 222.2 84% 4.9%;
@@ -76,7 +95,7 @@ body {
 .sticky-header {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 60;
   backdrop-filter: saturate(180%) blur(8px);
 }
 

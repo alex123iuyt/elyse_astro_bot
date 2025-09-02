@@ -36,8 +36,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <div className="ml-[264px] min-h-screen flex flex-col">
         <AdminHeader
           title={
-            pathname.startsWith('/admin/users') ? 'Пользователи бота' :
+            pathname.startsWith('/admin/bot-users') ? 'Пользователи бота' :
+            pathname.startsWith('/admin/users') ? 'Пользователи' :
             pathname.startsWith('/admin/content') ? 'Контент' :
+            pathname.startsWith('/admin/notifications') ? 'Рассылки' :
             false ? 'Маркетинг' :
             pathname.startsWith('/admin/staff') ? 'Сотрудники' :
             pathname.startsWith('/admin/settings') ? 'Настройки' :
@@ -48,6 +50,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           backFallback={
             pathname.startsWith('/admin/users') ? '/admin/users' :
             pathname.startsWith('/admin/content') ? '/admin/content' :
+            pathname.startsWith('/admin/notifications') ? '/admin/notifications' :
             '/admin/dashboard'
           }
         />

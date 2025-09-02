@@ -11,8 +11,7 @@ export async function GET(request: NextRequest) {
     // Построение запроса для banner
     const where: any = {
       type: 'BANNER',
-      status: 'PUBLISHED',
-      visibility: 'PUBLIC'
+      status: 'PUBLISHED'
     }
 
     // Получаем контент

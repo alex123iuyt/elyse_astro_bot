@@ -41,7 +41,7 @@ export default function OnboardingPage() {
   const f = ['отношения','карьера','деньги','энергия','саморазвитие']
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="min-h-screen bg-black text-white p-4 space-y-4">
       <h1 className="text-xl font-semibold">Онбординг</h1>
 
       <div className="space-y-2">
@@ -78,6 +78,8 @@ export default function OnboardingPage() {
     </div>
   )
 }
+
+
 
 
 

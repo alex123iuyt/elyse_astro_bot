@@ -3,11 +3,15 @@
 import { useEffect, useState } from 'react'
 import Header from '../../components/Header'
 import Stories from '../../components/today/Stories'
+import StoriesSection from '../../components/StoriesSection'
 import Forecast from '../../components/today/Forecast'
 import LunarCalendar from '../../components/today/LunarCalendar'
 import Banner from '../../components/today/Banner'
-import BottomNav from '../../components/BottomNav'
+
 import { useUser } from '../../store/user'
+import { useAuth } from '../../contexts/AuthContext'
+import { PublicContent, PrivateContent } from '../../components/AuthContentGate'
+import CenteredAuthModal from '../../components/CenteredAuthModal'
 
 // Типы для данных из CMS
 interface StorySlide {
@@ -91,6 +95,7 @@ interface BannerData {
 
 export default function TodayPage() {
   const { profile } = useUser()
+  const { isAuthenticated, user, isLoading: authLoading } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
   const [content, setContent] = useState<{
     stories: Story[]
@@ -333,7 +338,8 @@ export default function TodayPage() {
   const lunar = content.lunar || fallbackLunar
   const banner = content.banner || fallbackBanner
 
-  if (isLoading) {
+  // Если загружается авторизация, показываем загрузку
+  if (authLoading || isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
@@ -344,30 +350,64 @@ export default function TodayPage() {
     )
   }
 
+  // Для неавторизованных пользователей показываем блокирующую модалку
+  if (!isAuthenticated) {
+    return (
+      <div className="h-screen overflow-hidden">
+        <Header 
+          name="Гость" 
+          tags={["🌟 Общие прогнозы"]}
+          onOpenPremium={() => window.location.href = "/profile"}
+        />
+        <CenteredAuthModal
+          title="Персональный прогноз"
+          description="Получите детальный астрологический прогноз на основе вашей натальной карты"
+          showContent={true}
+        >
+          <div className="p-4 space-y-6 pb-24">
+            {/* Контент показывается размытым на заднем плане */}
+            <StoriesSection />
+            <Forecast forecast={forecast} />
+            <LunarCalendar lunarData={lunar} />
+            <Banner banner={banner} />
+          </div>
+        </CenteredAuthModal>
+      </div>
+    )
+  }
+
+  // Для авторизованных пользователей показываем полный контент
   return (
     <>
       <Header 
-        name={profile.name} 
+        name={user?.name || profile.name} 
         tags={["☉ Virgo", "↑ Libra", "☾ Scorpio"]}
-        onOpenSettings={() => window.location.href = "/settings"}
         onOpenPremium={() => window.location.href = "/profile"}
       />
       <div className="p-4 space-y-6 pb-24">
-        {/* 1. Stories - перемещены наверх */}
-        <Stories stories={stories} />
+        {/* 1. Stories Section - доступны всем */}
+        <PublicContent>
+          <StoriesSection />
+        </PublicContent>
         
-        {/* 2. Forecast */}
-        <Forecast forecast={forecast} />
+        {/* 2. Forecast - только для авторизованных */}
+        <PrivateContent
+          title="Персональный прогноз"
+          description="Получите детальный астрологический прогноз на основе вашей натальной карты"
+        >
+          <Forecast forecast={forecast} />
+        </PrivateContent>
         
-        {/* 3. Lunar Calendar */}
-        <LunarCalendar lunarData={lunar} />
+        {/* 3. Lunar Calendar - доступен всем */}
+        <PublicContent>
+          <LunarCalendar lunarData={lunar} />
+        </PublicContent>
         
-        {/* 4. Banner */}
-        <Banner banner={banner} />
+        {/* 4. Banner - доступен всем */}
+        <PublicContent>
+          <Banner banner={banner} />
+        </PublicContent>
       </div>
-      
-      {/* Bottom Navigation */}
-      <BottomNav />
     </>
   )
 }

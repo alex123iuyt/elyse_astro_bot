@@ -11,7 +11,6 @@ export default function EditProfilePage() {
       <Header 
         name={profile.name} 
         tags={["☉ Virgo", "↑ Libra", "☾ Scorpio"]}
-        onOpenSettings={() => window.location.href = "/settings"}
         onOpenPremium={() => window.location.href = "/profile"}
       />
       <div className="py-4 space-y-6 page-has-bottom-nav">
@@ -23,6 +22,8 @@ export default function EditProfilePage() {
     </>
   );
 }
+
+
 
 
 

@@ -26,7 +26,7 @@ export default function BottomNav() {
   const gridCols = navItems.length === 4 ? 'grid-cols-4' : navItems.length === 5 ? 'grid-cols-5' : 'grid-cols-6';
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-800 bg-black/90 backdrop-blur">
+    <nav className="fixed bottom-0 left-0 right-0 z-[60] border-t border-zinc-800 bg-black/95 backdrop-blur-md">
       <div className={`grid ${gridCols} max-w-xl mx-auto`}>
         {navItems.map((item) => (
           <Link

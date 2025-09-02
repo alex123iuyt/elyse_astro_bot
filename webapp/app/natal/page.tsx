@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ls } from '../../lib/storage';
+import { PrivateContent } from '../../components/AuthContentGate';
+
 
 export default function NatalPage() {
   const router = useRouter();
@@ -74,30 +76,34 @@ export default function NatalPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <div className="p-4 border-b border-zinc-800">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Натальная карта</h1>
-          <div className="flex items-center space-x-3">
-            <button 
-              onClick={() => router.push('/natal-wizard')}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm transition-colors"
-            >
-              ✏️ Редактировать
-            </button>
-            <button 
-              onClick={() => router.back()}
-              className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center"
-            >
-              ←
-            </button>
+    <PrivateContent
+      title="Ваша натальная карта"
+      description="Войдите в аккаунт и заполните данные о рождении, чтобы получить персональную натальную карту и детальный астрологический анализ"
+    >
+      <div className="min-h-screen bg-black text-white">
+        {/* Header */}
+        <div className="p-4 border-b border-zinc-800">
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl font-semibold">Натальная карта</h1>
+            <div className="flex items-center space-x-3">
+              <button 
+                onClick={() => router.push('/natal-wizard')}
+                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm transition-colors"
+              >
+                ✏️ Редактировать
+              </button>
+              <button 
+                onClick={() => router.back()}
+                className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center"
+              >
+                ←
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="p-4 space-y-6">
+        {/* Main Content */}
+        <div className="p-4 space-y-6">
         {/* User Info */}
         {natalChartData && (
           <div className="bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-2xl p-6">
@@ -226,8 +232,9 @@ export default function NatalPage() {
             </button>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </PrivateContent>
   );
 }
 

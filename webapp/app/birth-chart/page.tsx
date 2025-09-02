@@ -3,7 +3,7 @@ import { TransitCard } from '../../components/TransitCard'
 
 export default function BirthChartHome() {
   return (
-    <div className="p-4 space-y-5">
+    <div className="min-h-screen bg-black text-white p-4 space-y-5">
       <div className="text-3xl font-serif">Birth Chart</div>
 
       <div className="grid grid-cols-2 gap-2">
@@ -34,6 +34,8 @@ export default function BirthChartHome() {
     </div>
   )
 }
+
+
 
 
 

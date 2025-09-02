@@ -1,20 +1,14 @@
 "use client";
 
-import Header from '../../components/Header'
-import { useUser } from '../../store/user'
+import PageWithAuth from '../../components/PageWithAuth';
 
 export default function TarotPage() {
-  const { profile } = useUser()
-
   return (
-    <>
-      <Header 
-        name={profile.name} 
-        tags={["☉ Virgo", "↑ Libra", "☾ Scorpio"]}
-        onOpenSettings={() => window.location.href = "/settings"}
-        onOpenPremium={() => window.location.href = "/profile"}
-      />
-      <div className="p-4 space-y-6">
+    <PageWithAuth
+      title="Расклады Таро"
+      description="Войдите в аккаунт, чтобы получить персональные расклады Таро и гадания на картах"
+    >
+      <div className="p-4 space-y-6 pb-24">
         <h1 className="text-2xl font-serif">Tarot Readings</h1>
         
         <div className="grid grid-cols-2 gap-4">
@@ -47,8 +41,8 @@ export default function TarotPage() {
           </div>
         </div>
       </div>
-    </>
-  )
+    </PageWithAuth>
+  );
 }
 
 

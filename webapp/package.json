@@ -14,7 +14,8 @@
     "migrate-content": "tsx scripts/migrate-content.ts",
     "generate-today": "tsx scripts/generate-today.ts",
     "create-admin": "tsx scripts/create-admin-user.ts",
-    "init-subscriptions": "tsx scripts/init-subscription-data.ts"
+    "init-subscriptions": "tsx scripts/init-subscription-data.ts",
+    "test:broadcast": "node scripts/test-broadcast.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -24,8 +25,10 @@
     "astronomy-engine": "^2.1.19",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.1",
+    "form-data": "^4.0.4",
     "framer-motion": "^12.23.12",
     "grammy": "^1.38.1",
+    "groq-sdk": "^0.30.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.542.0",
     "next": "14.0.4",

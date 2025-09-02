@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { ls } from '../lib/storage';
 import StoryCard from '../components/StoryCard';
 import StoryViewer, { Story } from '../components/StoryViewer';
-import BottomNav from '../components/BottomNav';
+
 import { useAuth } from '../contexts/AuthContext';
 import { LunarSheet } from '@/components/LunarSheet';
 

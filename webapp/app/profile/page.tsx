@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ls } from '../../lib/storage';
 import { useAuth } from '../../contexts/AuthContext';
+import { PrivateContent } from '../../components/AuthContentGate';
 
 
 interface NatalChartData {
@@ -99,7 +100,11 @@ export default function ProfilePage() {
       </div>
 
       {/* Main Content */}
-      <div className="p-4 space-y-6 pb-24">
+      <PrivateContent
+        title="Личный профиль"
+        description="Войдите в аккаунт, чтобы настроить свой профиль, натальную карту и получать персональные прогнозы"
+      >
+        <div className="p-4 space-y-6 pb-24">
         {/* Profile Card */}
         <div className="bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-2xl p-6">
           <div className="flex items-center space-x-4 mb-4">
@@ -332,9 +337,8 @@ export default function ProfilePage() {
             После выхода вы будете перенаправлены на страницу входа
           </p>
         </div>
-      </div>
-
-
+        </div>
+      </PrivateContent>
     </div>
   );
 }

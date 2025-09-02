@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ls } from '../../lib/storage';
+import { PublicContent } from '../../components/AuthContentGate';
 
 type MonthItem = { dateISO: string; day: number; phasePercent: number; phaseName: string; icon: string; moonSign?: string };
 
@@ -39,15 +40,16 @@ export default function LunarPage() {
   const emptyCells = Array.from({ length: firstWeekday }).map((_, i) => <div key={`e-${i}`} />);
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="p-4 border-b border-zinc-800">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Лунный календарь</h1>
-          <button onClick={() => router.back()} className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center">←</button>
+    <PublicContent>
+      <div className="min-h-screen bg-black text-white">
+        <div className="p-4 border-b border-zinc-800">
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl font-semibold">Лунный календарь</h1>
+            <button onClick={() => router.back()} className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center">←</button>
+          </div>
         </div>
-      </div>
 
-      <div className="p-4 space-y-6">
+        <div className="p-4 space-y-6">
         {/* Табы */}
         <div className="bg-zinc-900/60 rounded-2xl p-1 inline-flex">
           {(['today','tomorrow','calendar'] as const).map((t) => (
@@ -212,7 +214,8 @@ export default function LunarPage() {
           </div>
         </div>
       )}
-    </div>
+      </div>
+    </PublicContent>
   );
 }
 

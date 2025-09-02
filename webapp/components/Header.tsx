@@ -2,20 +2,19 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { useAuth } from '@/contexts/AuthContext'
+import { useAuth } from '../contexts/AuthContext'
 
 type HeaderProps = {
   name: string;
   tags: string[];
-  onOpenSettings: () => void;
   onOpenPremium: () => void;
 }
 
-export default function Header({ name, tags, onOpenSettings, onOpenPremium }: HeaderProps) {
+export default function Header({ name, tags, onOpenPremium }: HeaderProps) {
   const [platform, setPlatform] = useState<string>('')
   const pathname = usePathname()
   const router = useRouter()
-  const { logout } = useAuth()
+  const { isAuthenticated } = useAuth()
   
   const isProfile = pathname.startsWith('/profile')
   
@@ -36,15 +35,7 @@ export default function Header({ name, tags, onOpenSettings, onOpenPremium }: He
     }
   }, [])
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      router.replace('/auth');
-    } catch (error) {
-      console.error('Logout error:', error);
-      router.replace('/auth');
-    }
-  };
+
 
   return (
     <header className="sticky-header bg-zinc-900/80 border-b border-zinc-800">
@@ -92,33 +83,22 @@ export default function Header({ name, tags, onOpenSettings, onOpenPremium }: He
               </div>
               
               <div className="flex items-center gap-3">
-                <button
-                  aria-label="Profile"
-                  onClick={() => router.push('/profile')}
-                  className="h-9 w-9 grid place-items-center rounded-full hover:bg-white/5 transition-colors"
-                >
-                  👤
-                </button>
-                <button
-                  aria-label="Settings"
-                  onClick={onOpenSettings}
-                  className="h-9 w-9 grid place-items-center rounded-full hover:bg-white/5 transition-colors"
-                >
-                  ⚙️
-                </button>
+                {/* Показываем иконку профиля только для авторизованных пользователей */}
+                {isAuthenticated && (
+                  <button
+                    aria-label="Profile"
+                    onClick={() => router.push('/profile')}
+                    className="h-9 w-9 grid place-items-center rounded-full hover:bg-white/5 transition-colors"
+                  >
+                    👤
+                  </button>
+                )}
                 <button
                   aria-label="Premium"
                   onClick={() => router.push('/premium')}
                   className="h-9 w-9 grid place-items-center rounded-full hover:bg-white/5 transition-colors"
                 >
                   💎
-                </button>
-                <button
-                  aria-label="Logout"
-                  onClick={handleLogout}
-                  className="h-9 w-9 grid place-items-center rounded-full hover:bg-red-500/20 transition-colors text-red-400 hover:text-red-300"
-                >
-                  🚪
                 </button>
               </div>
             </div>

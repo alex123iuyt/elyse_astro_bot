@@ -28,3 +28,6 @@ def forecast_menu_kb() -> InlineKeyboardMarkup:
 
 
 
+
+
+

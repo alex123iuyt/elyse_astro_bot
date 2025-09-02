@@ -1,20 +1,28 @@
 "use client";
 
 import Header from '../../components/Header'
+
 import { useUser } from '../../store/user'
+import { useAuth } from '../../contexts/AuthContext'
+import { PrivateContent } from '../../components/AuthContentGate'
 
 export default function HumanDesignPage() {
   const { profile } = useUser()
+  const { isAuthenticated, user } = useAuth()
 
   return (
-    <>
+    <div className="min-h-screen bg-black text-white">
       <Header 
-        name={profile.name} 
-        tags={["☉ Virgo", "↑ Libra", "☾ Scorpio"]}
-        onOpenSettings={() => window.location.href = "/settings"}
+        name={isAuthenticated ? (user?.name || profile.name) : "Гость"} 
+        tags={isAuthenticated ? ["☉ Virgo", "↑ Libra", "☾ Scorpio"] : ["🌟 Общие прогнозы"]}
         onOpenPremium={() => window.location.href = "/profile"}
       />
-      <div className="p-4 space-y-6">
+      
+      <PrivateContent
+        title="Дизайн Человека"
+        description="Войдите в аккаунт, чтобы получить персональную карту Дизайна Человека и узнать свой тип"
+      >
+        <div className="p-4 space-y-6 pb-24">
         <h1 className="text-2xl font-serif">Human Design</h1>
         
         <div className="card">
@@ -52,8 +60,9 @@ export default function HumanDesignPage() {
             Learn your decision-making strategy and inner authority to make choices that align with your true nature.
           </div>
         </div>
-      </div>
-    </>
+        </div>
+      </PrivateContent>
+    </div>
   )
 }
 

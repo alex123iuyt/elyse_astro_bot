@@ -13,12 +13,17 @@ import {
   ChartBarIcon,
   CreditCardIcon,
   CurrencyDollarIcon,
+  WrenchScrewdriverIcon,
+  PlayIcon,
 } from "@heroicons/react/24/outline";
 
 const MENU = [
   { id: "dashboard", label: "Главная", href: "/admin/dashboard", icon: HomeIcon },
-  { id: "users", label: "Пользователи бота", href: "/admin/users", icon: UsersIcon },
+  { id: "users", label: "Пользователи бота", href: "/admin/bot-users", icon: UsersIcon },
   { id: "content", label: "Контент", href: "/admin/content", icon: DocumentTextIcon },
+  { id: "content-builder", label: "Конструктор контента", href: "/admin/content-builder", icon: WrenchScrewdriverIcon },
+  { id: "stories", label: "Сторисы", href: "/admin/stories", icon: PlayIcon },
+  { id: "broadcast", label: "Рассылки", href: "/admin/notifications", icon: MegaphoneIcon },
   { id: "subscriptions", label: "Подписки", href: "/admin/subscriptions", icon: CreditCardIcon },
   { id: "payments", label: "Платежи", href: "/admin/payments", icon: CurrencyDollarIcon },
   { id: "staff", label: "Сотрудники", href: "/admin/staff", icon: UsersIcon },

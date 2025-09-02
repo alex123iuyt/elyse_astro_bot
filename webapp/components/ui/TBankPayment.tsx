@@ -118,3 +118,6 @@ export default function TBankPayment({ amount, planName, onSuccess, onError, onC
   );
 }
 
+
+
+

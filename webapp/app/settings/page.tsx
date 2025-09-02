@@ -9,7 +9,7 @@ export default function Settings() {
   const [weeklyForecast, setWeeklyForecast] = useState(false)
   
   return (
-    <div className="py-4 space-y-4 page-has-bottom-nav">
+    <div className="min-h-screen bg-black text-white py-4 space-y-4 page-has-bottom-nav">
       {/* Profile Section */}
       <section className="card">
         <h2 className="font-semibold mb-4 text-lg">Profile</h2>

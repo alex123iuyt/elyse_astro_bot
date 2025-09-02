@@ -20,8 +20,7 @@ export async function GET(request: NextRequest) {
     // Построение запроса для lunar calendar
     const where: any = {
       type: 'MOON_CALENDAR',
-      status: 'PUBLISHED',
-      visibility: 'PUBLIC'
+      status: 'PUBLISHED'
     }
 
     // Фильтруем по дате

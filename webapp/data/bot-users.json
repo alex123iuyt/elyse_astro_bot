@@ -81,6 +81,19 @@
       "last_active": "2025-08-29T13:35:01.690Z",
       "created_at": "2025-08-29T13:35:01.690Z",
       "message_count": 1
+    },
+    {
+      "id": "tg_web_7",
+      "telegram_id": "web_7",
+      "name": "alex123",
+      "birth_date": "123123-12-23",
+      "birth_city": "231231",
+      "timezone": "Europe/Moscow",
+      "zodiac_sign": "Козерог",
+      "is_premium": false,
+      "last_active": "2025-09-01T06:58:29.606Z",
+      "created_at": "2025-09-01T06:58:29.606Z",
+      "message_count": 1
     }
   ]
 }

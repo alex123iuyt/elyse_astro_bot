@@ -51,6 +51,8 @@ export default function ContentPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showGenerationModal, setShowGenerationModal] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generationResults, setGenerationResults] = useState(null);
 
   useEffect(() => {
     loadContent();
@@ -117,7 +119,52 @@ export default function ContentPage() {
   };
 
   const handleGenerateToday = async () => {
-    setShowGenerationModal(true);
+    try {
+      setIsGenerating(true);
+      setShowGenerationModal(true);
+      
+      console.log('🤖 Starting AI content generation...');
+      
+      const response = await fetch('/api/admin/content/generate-daily', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          date: new Date().toISOString().split('T')[0],
+          generateTips: true,
+          generateHoroscopes: true,
+          generateLunar: true,
+          tipsCount: 3
+        })
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setGenerationResults(result);
+        console.log('✅ AI generation completed:', result);
+        
+        // Обновляем список контента
+        await loadContent();
+        
+        alert(`🎉 Успешно сгенерировано:
+• ${result.generated.tips} советов дня
+• ${result.generated.horoscopes} гороскопов
+• ${result.generated.lunar ? '1' : '0'} лунный календарь
+        
+${result.errors.length > 0 ? 'Ошибки: ' + result.errors.join(', ') : ''}`);
+      } else {
+        console.error('❌ Generation failed:', result);
+        alert('Ошибка генерации: ' + (result.error || 'Неизвестная ошибка'));
+      }
+      
+    } catch (error) {
+      console.error('❌ Generation error:', error);
+      alert('Ошибка при генерации контента: ' + (error instanceof Error ? error.message : String(error)));
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -171,10 +218,20 @@ export default function ContentPage() {
           </button>
           <button
             onClick={handleGenerateToday}
-            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors flex items-center space-x-2"
+            disabled={isGenerating}
+            className={`px-4 py-2 ${isGenerating ? 'bg-emerald-400' : 'bg-emerald-600 hover:bg-emerald-700'} text-white rounded-lg transition-colors flex items-center space-x-2 disabled:cursor-not-allowed`}
           >
-            <SparklesIcon className="w-4 h-4" />
-            <span>Генерировать сегодня</span>
+            {isGenerating ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Генерирую ИИ...</span>
+              </>
+            ) : (
+              <>
+                <SparklesIcon className="w-4 h-4" />
+                <span>🤖 Генерировать ИИ</span>
+              </>
+            )}
           </button>
           <button
             onClick={() => setShowAddModal(true)}

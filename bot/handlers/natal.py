@@ -46,3 +46,6 @@ async def natalka(m: types.Message):
 
 
 
+
+
+

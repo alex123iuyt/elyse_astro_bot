@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ls } from '../../lib/storage';
+import { PrivateContent } from '../../components/AuthContentGate';
+
 
 export default function CompatPage() {
   const router = useRouter();
@@ -66,22 +68,26 @@ export default function CompatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <div className="p-4 border-b border-zinc-800">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Совместимость</h1>
-          <button 
-            onClick={() => router.back()}
-            className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center"
-          >
-            ←
-          </button>
+    <PrivateContent
+      title="Астрологическая совместимость"
+      description="Войдите в аккаунт, чтобы рассчитать совместимость с партнером на основе натальных карт"
+    >
+      <div className="min-h-screen bg-black text-white">
+        {/* Header */}
+        <div className="p-4 border-b border-zinc-800">
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl font-semibold">Совместимость</h1>
+            <button 
+              onClick={() => router.back()}
+              className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center"
+            >
+              ←
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="p-4 space-y-6">
+        {/* Main Content */}
+        <div className="p-4 space-y-6">
         {/* Input Form */}
         <div className="bg-zinc-900 rounded-2xl p-6 space-y-4">
           <h2 className="text-lg font-semibold">Данные партнера</h2>
@@ -167,8 +173,9 @@ export default function CompatPage() {
             </button>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </PrivateContent>
   );
 }
 

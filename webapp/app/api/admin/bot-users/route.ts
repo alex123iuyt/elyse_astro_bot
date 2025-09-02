@@ -1,101 +1,70 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getDatabase } from '../../../../lib/database';
 import { getBotUsers } from '../../../../lib/bot-users';
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
+    const db = await getDatabase();
     
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '20');
-    const search = searchParams.get('search') || '';
-    const segment = searchParams.get('segment') || 'all';
-    const inactiveDays = parseInt(searchParams.get('inactive_days') || '7');
-    const zodiac = searchParams.get('zodiac') || '';
-    const sort = searchParams.get('sort') || 'last_active';
-    const order = searchParams.get('order') || 'DESC';
-
-    // Получаем всех пользователей
-    let users = await getBotUsers();
-
-    // Применяем поиск
-    if (search) {
-      const searchLower = search.toLowerCase();
-      users = users.filter(user => 
-        user.name.toLowerCase().includes(searchLower) ||
-        (user.username && user.username.toLowerCase().includes(searchLower)) ||
-        user.telegram_id.includes(search) ||
-        (user.zodiac_sign && user.zodiac_sign.toLowerCase().includes(searchLower))
-      );
-    }
-
-    // Применяем сегментацию
-    if (segment === 'premium') {
-      users = users.filter(user => user.is_premium);
-    } else if (segment === 'inactive') {
-      const cutoff = new Date();
-      cutoff.setDate(cutoff.getDate() - inactiveDays);
-      users = users.filter(user => new Date(user.last_active) < cutoff);
-    } else if (segment === 'zodiac' && zodiac) {
-      users = users.filter(user => user.zodiac_sign === zodiac);
-    }
-
-    // Применяем сортировку
-    users.sort((a, b) => {
-      let aValue: any;
-      let bValue: any;
-
-      switch (sort) {
-        case 'name':
-          aValue = a.name.toLowerCase();
-          bValue = b.name.toLowerCase();
-          break;
-        case 'created_at':
-          aValue = new Date(a.created_at);
-          bValue = new Date(b.created_at);
-          break;
-        case 'message_count':
-          aValue = a.message_count;
-          bValue = b.message_count;
-          break;
-        case 'last_active':
-        default:
-          aValue = new Date(a.last_active);
-          bValue = new Date(b.last_active);
-          break;
-      }
-
-      if (order === 'ASC') {
-        return aValue > bValue ? 1 : -1;
-      } else {
-        return aValue < bValue ? 1 : -1;
-      }
+    // Получаем всех пользователей бота
+    const botUsers = await getBotUsers();
+    
+    // Получаем зарегистрированных пользователей из основной таблицы
+    const registeredUsers = await db.all(`
+      SELECT id, telegram_id, name, email, role, is_premium, 
+             subscription_type, last_active, created_at, zodiac_sign
+      FROM users 
+      WHERE telegram_id IS NOT NULL
+      ORDER BY created_at DESC
+    `);
+    
+    // Создаем Map для быстрого поиска зарегистрированных пользователей
+    const registeredMap = new Map();
+    registeredUsers.forEach(user => {
+      registeredMap.set(user.telegram_id, user);
     });
-
-    // Применяем пагинацию
-    const totalUsers = users.length;
-    const totalPages = Math.ceil(totalUsers / limit);
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    const paginatedUsers = users.slice(startIndex, endIndex);
-
+    
+    // Разделяем пользователей на зарегистрированных и незарегистрированных
+    const categorizedUsers = botUsers.map(botUser => {
+      const isRegistered = registeredMap.has(botUser.telegram_id);
+      const registeredUser = registeredMap.get(botUser.telegram_id);
+      
+      return {
+        ...botUser,
+        is_registered: isRegistered,
+        registration_status: isRegistered ? 'registered' : 'unregistered',
+        user_id: registeredUser?.id || null,
+        email: registeredUser?.email || null,
+        role: registeredUser?.role || null,
+        subscription_type: registeredUser?.subscription_type || null,
+        // Дополнительная информация для незарегистрированных
+        days_since_last_active: Math.floor((Date.now() - new Date(botUser.last_active).getTime()) / (1000 * 60 * 60 * 24)),
+        activity_status: new Date(botUser.last_active) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) ? 'active' : 'inactive'
+      };
+    });
+    
+    // Статистика
+    const stats = {
+      total: categorizedUsers.length,
+      registered: categorizedUsers.filter(u => u.is_registered).length,
+      unregistered: categorizedUsers.filter(u => !u.is_registered).length,
+      active: categorizedUsers.filter(u => u.activity_status === 'active').length,
+      inactive: categorizedUsers.filter(u => u.activity_status === 'inactive').length,
+      premium: categorizedUsers.filter(u => u.is_premium).length
+    };
+    
     return NextResponse.json({
       success: true,
-      data: {
-        users: paginatedUsers,
-        pagination: {
-          currentPage: page,
-          totalPages,
-          totalUsers,
-          limit
-        }
-      }
+      users: categorizedUsers,
+      stats,
+      registered_users: registeredUsers
     });
-
+    
   } catch (error) {
     console.error('Error fetching bot users:', error);
     return NextResponse.json({ 
       success: false, 
-      error: 'Ошибка получения пользователей' 
+      error: 'Ошибка получения пользователей бота' 
     }, { status: 500 });
   }
 }
