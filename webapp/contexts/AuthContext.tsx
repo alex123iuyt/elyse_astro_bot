@@ -17,6 +17,8 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (userData: User) => void;
+  loginWithCredentials: (email: string, password: string, rememberMe?: boolean) => Promise<boolean>;
+  register: (name: string, email: string, password: string) => Promise<boolean>;
   logout: () => void;
   checkAuth: () => Promise<void>;
 }
@@ -60,6 +62,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = (userData: User) => {
     setUser(userData);
     setIsAuthenticated(true);
+  };
+
+  const loginWithCredentials = async (email: string, password: string, rememberMe?: boolean): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password, rememberMe }),
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setUser(data.user);
+        setIsAuthenticated(true);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
+    }
+  };
+
+  const register = async (name: string, email: string, password: string): Promise<boolean> => {
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setUser(data.user);
+        setIsAuthenticated(true);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Registration error:', error);
+      return false;
+    }
   };
 
   const logout = async () => {
@@ -111,6 +161,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isAuthenticated,
       isLoading,
       login,
+      loginWithCredentials,
+      register,
       logout,
       checkAuth
     }}>

@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
     // Преобразуем в нужный формат для stories и фильтруем по знаку
     const stories = contentItems.map(item => {
       // Парсим meta как JSON строку
-      let meta = {};
+      let meta: any = {};
       try {
         if (item.meta) {
           meta = JSON.parse(item.meta);

@@ -29,10 +29,10 @@ export default function ChatPage() {
   const checkAuth = async () => {
     try {
       // Проверяем роль в localStorage
-      const role = ls.get('elyse.role', 'user');
+      const role = ls.get('elyse.role', 'user') as string;
       
       // Админ не нуждается в профиле
-      if (role === 'admin') return;
+      if (role === 'admin' || role === 'ADMIN') return;
       
       // Обычные пользователи могут быть без профиля
       // Но для чата лучше иметь профиль

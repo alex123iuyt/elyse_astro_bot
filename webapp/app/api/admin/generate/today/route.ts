@@ -58,16 +58,17 @@ export async function POST(request: NextRequest) {
 
     // Создаем советы дня
     for (const tip of dailyTips) {
-      const createdTip = await prisma.contentItem.create({
+      const createdTip = await prisma.content.create({
         data: {
           type: 'DAILY_TIP_DOMAIN',
           title: tip.title,
           status: 'DRAFT',
-          version: 1,
-          payload: tip.payload,
-          targeting: tip.targeting,
-          schedule: tip.schedule,
-          updatedById: userId as string,
+          body: JSON.stringify(tip.payload),
+          meta: JSON.stringify({
+            targeting: tip.targeting,
+            schedule: tip.schedule,
+          }),
+          authorId: userId as string,
         },
       })
       createdItems.push({ type: 'DAILY_TIP_DOMAIN', id: createdTip.id, title: createdTip.title })
@@ -75,37 +76,37 @@ export async function POST(request: NextRequest) {
 
     // Создаем прогнозы по доменам
     for (const [domain, text] of Object.entries(dailyForecasts)) {
-      const createdForecast = await prisma.contentItem.create({
+      const createdForecast = await prisma.content.create({
         data: {
           type: 'DAILY_FORECAST_DOMAIN',
           title: `Прогноз ${domain} на ${date}`,
           status: 'DRAFT',
-          version: 1,
-          payload: {
+          body: text,
+          meta: JSON.stringify({
             domain,
-            text,
             mood: 'neutral',
             priority: 'medium',
-          },
-          targeting: {},
-          schedule: { timezone: tz },
-          updatedById: userId as string,
+            targeting: {},
+            schedule: { timezone: tz },
+          }),
+          authorId: userId as string,
         },
       })
       createdItems.push({ type: 'DAILY_FORECAST_DOMAIN', id: createdForecast.id, title: createdForecast.title })
     }
 
     // Создаем лунный календарь
-    const createdLunar = await prisma.contentItem.create({
+    const createdLunar = await prisma.content.create({
       data: {
         type: 'LUNAR_TODAY',
         title: lunarToday.title,
         status: 'DRAFT',
-        version: 1,
-        payload: lunarToday.payload,
-        targeting: lunarToday.targeting,
-        schedule: lunarToday.schedule,
-        updatedById: userId as string,
+        body: JSON.stringify(lunarToday.payload),
+        meta: JSON.stringify({
+          targeting: lunarToday.targeting,
+          schedule: lunarToday.schedule,
+        }),
+        authorId: userId as string,
       },
     })
     createdItems.push({ type: 'LUNAR_TODAY', id: createdLunar.id, title: createdLunar.title })
@@ -114,13 +115,14 @@ export async function POST(request: NextRequest) {
     await prisma.auditLog.create({
       data: {
         action: 'GENERATE_DAILY_CONTENT',
-        entity: 'ContentItem',
-        details: {
+        entityType: 'Content',
+        entityId: 'bulk_generation',
+        details: JSON.stringify({
           date,
           timezone: tz,
           generatedItems: createdItems.length,
           types: createdItems.map(item => item.type),
-        },
+        }),
         userId: userId as string,
       },
     })

@@ -11,7 +11,7 @@ export default function NatalPage() {
   const [natalChartData, setNatalChartData] = useState<any>(null);
   
   useEffect(() => {
-    const role = ls.get('elyse.role', 'user');
+    const role = ls.get('elyse.role', 'user') as string;
     const natalChart = ls.get('elyse.natalChart', null);
     setIsAdmin(role === 'admin');
     if (natalChart) setNatalChartData(natalChart);

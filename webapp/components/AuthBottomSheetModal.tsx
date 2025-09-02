@@ -18,7 +18,7 @@ export default function AuthBottomSheetModal({ isOpen, onClose }: AuthBottomShee
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const { login, register } = useAuth();
+  const { loginWithCredentials, register } = useAuth();
   const router = useRouter();
 
   // Сброс формы при открытии/закрытии
@@ -39,7 +39,7 @@ export default function AuthBottomSheetModal({ isOpen, onClose }: AuthBottomShee
 
     try {
       if (isLogin) {
-        const success = await login(email, password, rememberMe);
+        const success = await loginWithCredentials(email, password, rememberMe);
         if (success) {
           onClose();
           // Обновляем страницу, чтобы показать авторизованный контент

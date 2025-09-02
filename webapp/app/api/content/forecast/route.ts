@@ -133,7 +133,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Парсим meta как JSON строку и фильтруем по знаку
-    let meta = {};
+    let meta: any = {};
     try {
       if (contentItems[0].meta) {
         meta = JSON.parse(contentItems[0].meta);
